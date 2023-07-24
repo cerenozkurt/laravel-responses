@@ -2,9 +2,7 @@
 
 namespace Cerenimo\LaravelResponses;
 
-
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 
 trait Response
 {
