@@ -2,6 +2,7 @@
     "name": "cerenimo/laravel-responses",
     "description": "Standardized responses for Laravel.",
     "type": "library",
+    "license": ["MIT"],
     "authors": [
         {
             "name": "Ceren Özkurt",
