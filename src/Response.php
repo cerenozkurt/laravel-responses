@@ -75,7 +75,7 @@ trait Response
             $response['data'] = $this->customData;
         }
 
-        return new JsonResponse($response, $this->statusCode ?? 200, ['Content-Type' => 'application/json']);
+        return new JsonResponse($response, $this->statusCode ?? 200);
     }
 
 
@@ -87,7 +87,7 @@ trait Response
         if ($this->message != null) {
             $response['message'] = $this->message;
         }
-        return new JsonResponse($response, $this->statusCode ?? 200, ['Content-Type' => 'application/json']);
+        return new JsonResponse($response, $this->statusCode ?? 200);
     }
 
     public function responseValidation()
@@ -96,7 +96,7 @@ trait Response
             'result' => false,
         ];
         $response['validation_error'] = $this->validation;
-        return new JsonResponse($response, 422, ['Content-Type' => 'application/json']);
+        return new JsonResponse($response, 422);
     }
 
     public function responseNotFound()
@@ -104,7 +104,7 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->message ?? 'Not found.'
-        ], 404, ['Content-Type' => 'application/json']);
+        ], 404);
     }
 
     //Forbidden geçerli kimlik var ama kimlik sahibi işlem için yetkiye sahip değil 
@@ -113,7 +113,7 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->message ?? 'No access permission.'
-        ], 403, ['Content-Type' => 'application/json']);
+        ], 403);
     }
 
     //Unauthorized geçersiz kimlik bilgisi
@@ -122,7 +122,7 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->message ?? 'Not authorized.'
-        ], 401, ['Content-Type' => 'application/json']);
+        ], 401);
     }
 
     public function responseTryCatch()
@@ -130,7 +130,7 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->exception ?? 'An error occurred.'
-        ], $this->statusCode ?? 500, ['Content-Type' => 'application/json']);
+        ], $this->statusCode ?? 500);
     }
 
     public function responseBadRequest()
@@ -138,7 +138,7 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->message ?? 'Bad request.'
-        ], 400, ['Content-Type' => 'application/json']);
+        ], 400);
     }
 
     public function responseConflict()
@@ -146,7 +146,7 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->message ?? 'Conflict.'
-        ], 409, ['Content-Type' => 'application/json']);
+        ], 409);
     }
 
     public function responsePayloadTooLarge()
@@ -154,7 +154,7 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->message ?? 'Payload too large.'
-        ], 413, ['Content-Type' => 'application/json']);
+        ], 413);
     }
 
     public function responseTooManyRequests()
@@ -162,7 +162,7 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->message ?? 'Too many requests.'
-        ], 429, ['Content-Type' => 'application/json']);
+        ], 429);
     }
 
     public function responseInternalServer()
@@ -170,7 +170,7 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->message ?? 'Internal server error.'
-        ], 500, ['Content-Type' => 'application/json']);
+        ], 500);
     }
 
     public function responseNotImplemented()
@@ -178,7 +178,7 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->message ?? 'Not implemented.'
-        ], 501, ['Content-Type' => 'application/json']);
+        ], 501);
     }
 
     public function responseDataWithPagination()
@@ -216,7 +216,7 @@ trait Response
         $response['data'] = $datas;
         $response['meta'] = $pagination;
 
-        return new JsonResponse($response, $this->statusCode ?? 200, ['Content-Type' => 'application/json']);
+        return new JsonResponse($response, $this->statusCode ?? 200);
     }
 
     public function responseInvalidToken($message = null)
@@ -224,6 +224,6 @@ trait Response
         return new JsonResponse([
             'result' => false,
             'error' => $this->message ?? 'Invalid token.'
-        ], 498, ['Content-Type' => 'application/json']);
+        ], 498);
     }
 }
