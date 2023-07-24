@@ -2,7 +2,6 @@
 
 namespace Cerenimo\LaravelResponses;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 trait Response
 {
@@ -73,7 +72,7 @@ trait Response
             $response['data'] = $this->customData;
         }
 
-        return new JsonResponse($response, $this->statusCode ?? 200);
+        return response()->json($response, $this->statusCode ?? 200);
     }
 
 
@@ -85,7 +84,7 @@ trait Response
         if ($this->message != null) {
             $response['message'] = $this->message;
         }
-        return new JsonResponse($response, $this->statusCode ?? 200);
+        return response()->json($response, $this->statusCode ?? 200);
     }
 
     public function responseValidation()
@@ -94,12 +93,12 @@ trait Response
             'result' => false,
         ];
         $response['validation_error'] = $this->validation;
-        return new JsonResponse($response, 422);
+        return response()->json($response, 422);
     }
 
     public function responseNotFound()
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->message ?? 'Not found.'
         ], 404);
@@ -108,7 +107,7 @@ trait Response
     //Forbidden geçerli kimlik var ama kimlik sahibi işlem için yetkiye sahip değil 
     public function responseForbidden($message = null)
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->message ?? 'No access permission.'
         ], 403);
@@ -117,7 +116,7 @@ trait Response
     //Unauthorized geçersiz kimlik bilgisi
     public function responseUnauthorized($message = null)
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->message ?? 'Not authorized.'
         ], 401);
@@ -125,7 +124,7 @@ trait Response
 
     public function responseTryCatch()
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->exception ?? 'An error occurred.'
         ], $this->statusCode ?? 500);
@@ -133,7 +132,7 @@ trait Response
 
     public function responseBadRequest()
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->message ?? 'Bad request.'
         ], 400);
@@ -141,7 +140,7 @@ trait Response
 
     public function responseConflict()
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->message ?? 'Conflict.'
         ], 409);
@@ -149,7 +148,7 @@ trait Response
 
     public function responsePayloadTooLarge()
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->message ?? 'Payload too large.'
         ], 413);
@@ -157,7 +156,7 @@ trait Response
 
     public function responseTooManyRequests()
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->message ?? 'Too many requests.'
         ], 429);
@@ -165,7 +164,7 @@ trait Response
 
     public function responseInternalServer()
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->message ?? 'Internal server error.'
         ], 500);
@@ -173,7 +172,7 @@ trait Response
 
     public function responseNotImplemented()
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->message ?? 'Not implemented.'
         ], 501);
@@ -214,12 +213,12 @@ trait Response
         $response['data'] = $datas;
         $response['meta'] = $pagination;
 
-        return new JsonResponse($response, $this->statusCode ?? 200);
+        return response()->json($response, $this->statusCode ?? 200);
     }
 
     public function responseInvalidToken($message = null)
     {
-        return new JsonResponse([
+        return response()->json([
             'result' => false,
             'error' => $this->message ?? 'Invalid token.'
         ], 498);

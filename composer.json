@@ -12,8 +12,10 @@
         }
     ],
     "require": {
-        "symfony/http-foundation": "*"
+        "laravel/framework": ">=5.8",
+        "laravel/lumen-framework": ">=5.8"
     },
+    
     "autoload": {
         "psr-4": {
             "Cerenimo\\LaravelResponses\\": "src/"
