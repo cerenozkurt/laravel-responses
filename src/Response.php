@@ -76,16 +76,15 @@ trait Response
         return new JsonResponse($response, $this->statusCode ?? 200);
     }
 
-
     public function responseError()
     {
         $response = [
             'result' => false,
         ];
         if ($this->message != null) {
-            $response['message'] = $this->message;
+            $response['message'] = $this->message ?? 'An error occurred.';
         }
-        return new JsonResponse($response, $this->statusCode ?? 200);
+        return new JsonResponse($response, $this->statusCode ?? 500);
     }
 
     public function responseValidation()
@@ -93,6 +92,9 @@ trait Response
         $response = [
             'result' => false,
         ];
+        if ($this->validation) {
+            return $this->setMessage('No validation data found.')->responseBadRequest();
+        }
         $response['validation_error'] = $this->validation;
         return new JsonResponse($response, 422);
     }
@@ -106,7 +108,7 @@ trait Response
     }
 
     //Forbidden geçerli kimlik var ama kimlik sahibi işlem için yetkiye sahip değil 
-    public function responseForbidden($message = null)
+    public function responseForbidden()
     {
         return new JsonResponse([
             'result' => false,
@@ -115,7 +117,7 @@ trait Response
     }
 
     //Unauthorized geçersiz kimlik bilgisi
-    public function responseUnauthorized($message = null)
+    public function responseUnauthorized()
     {
         return new JsonResponse([
             'result' => false,
@@ -125,9 +127,12 @@ trait Response
 
     public function responseTryCatch()
     {
+        if ($this->exception) {
+            return $this->setMessage('No exception data found.')->responseBadRequest();
+        }
         return new JsonResponse([
             'result' => false,
-            'error' => $this->exception ?? 'An error occurred.'
+            'error' => $this->exception
         ], $this->statusCode ?? 500);
     }
 
@@ -212,7 +217,7 @@ trait Response
             ],
         ];
         $response['data'] = $datas;
-        $response['meta'] = $pagination;
+        $response['page'] = $pagination;
 
         return new JsonResponse($response, $this->statusCode ?? 200);
     }
