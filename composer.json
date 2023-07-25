@@ -12,8 +12,7 @@
         }
     ],
     "require": {
-        "laravel/framework": ">=5.8",
-        "laravel/lumen-framework": ">=5.8"
+        "illuminate/http": "*"
     },
     
     "autoload": {
