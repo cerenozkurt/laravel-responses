@@ -92,7 +92,7 @@ trait Response
         $response = [
             'result' => false,
         ];
-        if ($this->validation) {
+        if (!$this->validation) {
             return $this->setMessage('No validation data found.')->responseBadRequest();
         }
         $response['validation_error'] = $this->validation;
