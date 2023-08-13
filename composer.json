@@ -12,7 +12,9 @@
         }
     ],
     "require": {
-        "illuminate/http": "*"
+        "illuminate/http": "*",
+        "illuminate/pagination": "*",
+        "illuminate/container": "*"
     },
     
     "autoload": {

@@ -2,6 +2,7 @@
 
 namespace Cerenimo\LaravelResponses;
 
+use Cerenimo\LaravelResponses\Helpers\PaginationHelper;
 use Illuminate\Http\JsonResponse;
 
 trait Response
@@ -13,6 +14,7 @@ trait Response
     protected $exception;
     protected $pagination;
     protected $dataName;
+    protected $collection;
     public function setCustomData($key, $value)
     {
         if (!is_array($this->customData)) {
@@ -27,6 +29,7 @@ trait Response
         $this->message = $message;
         return $this;
     }
+
     public function setStatusCode($statusCode)
     {
         $this->statusCode = $statusCode;
@@ -44,11 +47,20 @@ trait Response
         $this->exception = $exception->getMessage();
         return $this;
     }
+
     public function setPagination($pagination)
     {
         $this->pagination = $pagination;
         return $this;
     }
+
+    public function setCollectionToPagination($collection, $perPage = 10)
+    {
+        $paginationHelper = new PaginationHelper();
+        $this->pagination = $paginationHelper->paginate($collection, $perPage);
+        return $this;
+    }
+
     public function setDataName($dataName)
     {
         $this->dataName = $dataName;
@@ -189,7 +201,6 @@ trait Response
         $response = [
             'result' => true,
         ];
-
         if ($this->message != null) {
             $response['message'] = $this->message;
         }
@@ -201,6 +212,9 @@ trait Response
         } else {
             $datas = $this->pagination->items();
         }
+
+        
+
         $pagination = [
             'links' => [
                 'first' => $this->pagination->onFirstPage(),
@@ -218,6 +232,7 @@ trait Response
         ];
         $response['data'] = $datas;
         $response['page'] = $pagination;
+
 
         return new JsonResponse($response, $this->statusCode ?? 200);
     }
