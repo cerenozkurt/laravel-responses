@@ -57,7 +57,7 @@ trait Response
     public function setCollectionToPagination($collection, $perPage = 10)
     {
         $paginationHelper = new PaginationHelper();
-        $this->pagination = $paginationHelper->paginate($collection, $perPage);
+        $this->pagination = $paginationHelper->collectToPaginate($collection, $perPage);
         return $this;
     }
 

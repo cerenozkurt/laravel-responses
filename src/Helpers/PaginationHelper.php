@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class PaginationHelper
 {
-    public static function paginate($results, $showPerPage)
+    public static function collectToPaginate($results, $showPerPage)
     {
         $results = collect($results);
         $pageNumber = Paginator::resolveCurrentPage('page');
