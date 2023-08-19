@@ -94,7 +94,7 @@ trait Response
             'result' => false,
         ];
         if ($this->message != null) {
-            $response['message'] = $this->message ?? 'An error occurred.';
+            $response['error'] = $this->message ?? 'An error occurred.';
         }
         return new JsonResponse($response, $this->statusCode ?? 500);
     }
