@@ -104,10 +104,10 @@ trait Response
         $response = [
             'result' => false,
         ];
-        if (!$this->validation) {
+        if (!$this->validation && !$this->message) {
             return $this->setMessage('No validation data found.')->responseBadRequest();
         }
-        $response['validation_error'] = $this->validation;
+        $response['validation_error'] = $this->validation ?? $this->message;
         return new JsonResponse($response, 422);
     }
 
