@@ -208,9 +208,9 @@ trait Response
             return $this->setMessage('No pagination data found.')->responseBadRequest();
         }
         if ($this->dataName) {
-            $datas = [$this->dataName => $this->pagination->items()];
+            $datas = [$this->dataName => array_values($this->pagination->items())];
         } else {
-            $datas = $this->pagination->items();
+            $datas = array_values($this->pagination->items());
         }
 
         
