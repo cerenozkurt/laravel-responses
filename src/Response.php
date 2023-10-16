@@ -213,14 +213,14 @@ trait Response
             $datas = array_values($this->pagination->items());
         }
 
-        
+        $perPage = $this->pagination->perPage();
 
         $pagination = [
             'links' => [
                 'first' => $this->pagination->onFirstPage(),
                 'last' => $this->pagination->onLastPage(),
-                'prev' => $this->pagination->previousPageUrl(),
-                'next' => $this->pagination->nextPageUrl(),
+                'prev' => $this->pagination->previousPageUrl() . '&perPage=' . $perPage,
+                'next' => $this->pagination->nextPageUrl() . '&perPage=' . $perPage,
             ],
             'meta' => [
                 'current_page' => $this->pagination->currentPage(),
