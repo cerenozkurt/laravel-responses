@@ -7,11 +7,12 @@ use Illuminate\Http\JsonResponse;
 
 trait Response
 {
+
     protected $customData;
     protected $message;
     protected $statusCode;
     protected $validation;
-    protected $exception;
+    protected $exceptionError;
     protected $pagination;
     protected $dataName;
     protected $collection;
@@ -42,9 +43,9 @@ trait Response
         return $this;
     }
 
-    public function setException($exception)
+    public function setException($exceptionError)
     {
-        $this->exception = $exception->getMessage();
+        $this->exceptionError = $exceptionError->getMessage();
         return $this;
     }
 
@@ -139,12 +140,12 @@ trait Response
 
     public function responseTryCatch()
     {
-        if ($this->exception) {
+        if ($this->exceptionError) {
             return $this->setMessage('No exception data found.')->responseBadRequest();
         }
         return new JsonResponse([
             'result' => false,
-            'error' => $this->exception
+            'error' => $this->exceptionError
         ], $this->statusCode ?? 500);
     }
 
