@@ -103,9 +103,8 @@ trait Response
         if ($this->customData != []) {
             $response['data'] = $this->customData;
         }
-        if ($this->message != null) {
-            $response['error'] = $this->message ?? 'An error occurred.';
-        }
+        $response['error'] = $this->message ?? 'An error occurred.';
+        
         return new JsonResponse($response, $this->statusCode ?? 500);
     }
 
