@@ -94,6 +94,15 @@ trait Response
         $response = [
             'result' => false,
         ];
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
         if ($this->message != null) {
             $response['error'] = $this->message ?? 'An error occurred.';
         }
@@ -105,96 +114,239 @@ trait Response
         $response = [
             'result' => false,
         ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
         if (!$this->validation && !$this->message) {
             return $this->setMessage('No validation data found.')->responseBadRequest();
         }
+
         $response['validation_error'] = $this->validation ?? $this->message;
         return new JsonResponse($response, 422);
     }
 
     public function responseNotFound()
     {
-        return new JsonResponse([
+        $response = [
             'result' => false,
-            'error' => $this->message ?? 'Not found.'
-        ], 404);
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Not found.';
+
+        return new JsonResponse($response, 404);
     }
 
     //Forbidden geçerli kimlik var ama kimlik sahibi işlem için yetkiye sahip değil 
     public function responseForbidden()
     {
-        return new JsonResponse([
+        $response = [
             'result' => false,
-            'error' => $this->message ?? 'No access permission.'
-        ], 403);
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'No access permission.';
+
+        return new JsonResponse($response, 403);
     }
 
     //Unauthorized geçersiz kimlik bilgisi
     public function responseUnauthorized()
     {
-        return new JsonResponse([
+        $response = [
             'result' => false,
-            'error' => $this->message ?? 'Not authorized.'
-        ], 401);
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Not authorized.';
+
+        return new JsonResponse($response, 401);
     }
 
     public function responseTryCatch()
     {
-        if ($this->exceptionError) {
+        $response = [
+            'result' => false,
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        if (!$this->exceptionError) {
             return $this->setMessage('No exception data found.')->responseBadRequest();
         }
-        return new JsonResponse([
-            'result' => false,
-            'error' => $this->exceptionError
-        ], $this->statusCode ?? 500);
+
+        $response['error'] = $this->exceptionError;
+
+        return new JsonResponse($response, 500);
     }
 
     public function responseBadRequest()
     {
-        return new JsonResponse([
+        $response = [
             'result' => false,
-            'error' => $this->message ?? 'Bad request.'
-        ], 400);
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Bad request.';
+
+        return new JsonResponse($response, 400);
     }
 
     public function responseConflict()
     {
-        return new JsonResponse([
+        $response = [
             'result' => false,
-            'error' => $this->message ?? 'Conflict.'
-        ], 409);
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Conflict';
+
+        return new JsonResponse($response, 409);
     }
 
     public function responsePayloadTooLarge()
     {
-        return new JsonResponse([
+        $response = [
             'result' => false,
-            'error' => $this->message ?? 'Payload too large.'
-        ], 413);
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Payload too large.';
+
+        return new JsonResponse($response, 413);
     }
 
     public function responseTooManyRequests()
     {
-        return new JsonResponse([
+        $response = [
             'result' => false,
-            'error' => $this->message ?? 'Too many requests.'
-        ], 429);
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Too many requests.';
+
+        return new JsonResponse($response, 429);
     }
 
     public function responseInternalServer()
     {
-        return new JsonResponse([
+        $response = [
             'result' => false,
-            'error' => $this->message ?? 'Internal server error.'
-        ], 500);
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Internal server error.';
+
+        return new JsonResponse($response, 500);
     }
 
     public function responseNotImplemented()
     {
-        return new JsonResponse([
+        $response = [
             'result' => false,
-            'error' => $this->message ?? 'Not implemented.'
-        ], 501);
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Not implemented.';
+
+        return new JsonResponse($response, 501);
     }
 
     public function responseDataWithPagination()
@@ -240,9 +392,22 @@ trait Response
 
     public function responseInvalidToken($message = null)
     {
-        return new JsonResponse([
+        $response = [
             'result' => false,
-            'error' => $this->message ?? 'Invalid token.'
-        ], 498);
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Invalid token.';
+
+        return new JsonResponse($response, 498);
     }
 }
