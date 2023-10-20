@@ -380,12 +380,15 @@ trait Response
 
         $perPage = $this->pagination->perPage();
 
+        $prevLink = $this->pagination->previousPageUrl() != false ? $this->pagination->previousPageUrl() . '&perPage=' . $perPage : false;
+        $nextLink = $this->pagination->nextPageUrl() != false ? $this->pagination->nextPageUrl() . '&perPage=' . $perPage : false;
+
         $pagination = [
             'links' => [
                 'first' => $this->pagination->onFirstPage(),
                 'last' => $this->pagination->onLastPage(),
-                'prev' => $this->pagination->previousPageUrl() . '&perPage=' . $perPage,
-                'next' => $this->pagination->nextPageUrl() . '&perPage=' . $perPage,
+                'prev' => $prevLink,
+                'next' => $nextLink,
             ],
             'meta' => [
                 'current_page' => $this->pagination->currentPage(),
