@@ -87,6 +87,8 @@ trait Response
         }
         
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, $this->statusCode ?? 200);
     }
 
@@ -105,7 +107,10 @@ trait Response
             $response['data'] = $this->customData;
         }
         $response['error'] = $this->message ?? 'An error occurred.';
+
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, $this->statusCode ?? 500);
     }
 
@@ -132,6 +137,9 @@ trait Response
         $response['validation_error'] = $this->validation ?? $this->message;
 
         $this->customData = [];
+        $this->message = null;
+        $this->validation = null;
+
         return new JsonResponse($response, 422);
     }
 
@@ -154,6 +162,8 @@ trait Response
         $response['error'] = $this->message ?? 'Not found.';
 
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, 404);
     }
 
@@ -177,6 +187,8 @@ trait Response
         $response['error'] = $this->message ?? 'No access permission.';
 
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, 403);
     }
 
@@ -200,6 +212,8 @@ trait Response
         $response['error'] = $this->message ?? 'Not authorized.';
 
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, 401);
     }
 
@@ -226,6 +240,9 @@ trait Response
         $response['error'] = $this->exceptionError;
 
         $this->customData = [];
+        $this->message = null;
+        $this->exceptionError = null;
+
         return new JsonResponse($response, 500);
     }
 
@@ -248,6 +265,8 @@ trait Response
         $response['error'] = $this->message ?? 'Bad request.';
 
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, 400);
     }
 
@@ -270,6 +289,8 @@ trait Response
         $response['error'] = $this->message ?? 'Conflict';
 
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, 409);
     }
 
@@ -292,6 +313,8 @@ trait Response
         $response['error'] = $this->message ?? 'Payload too large.';
 
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, 413);
     }
 
@@ -314,6 +337,8 @@ trait Response
         $response['error'] = $this->message ?? 'Too many requests.';
 
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, 429);
     }
 
@@ -336,6 +361,8 @@ trait Response
         $response['error'] = $this->message ?? 'Internal server error.';
 
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, 500);
     }
 
@@ -358,6 +385,8 @@ trait Response
         $response['error'] = $this->message ?? 'Not implemented.';
 
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, 501);
     }
 
@@ -402,6 +431,10 @@ trait Response
         $response['page'] = $pagination;
 
         $this->customData = [];
+        $this->message = null;
+        $this->dataName = null;
+        $this->pagination = null;
+
         return new JsonResponse($response, $this->statusCode ?? 200);
     }
 
@@ -424,6 +457,8 @@ trait Response
         $response['error'] = $this->message ?? 'Invalid token.';
 
         $this->customData = [];
+        $this->message = null;
+
         return new JsonResponse($response, 498);
     }
 }
