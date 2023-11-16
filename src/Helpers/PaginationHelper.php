@@ -11,6 +11,9 @@ class PaginationHelper
 {
     public static function collectToPaginate($results, $showPerPage)
     {
+        if(!is_numeric($showPerPage)){ 
+            $showPerPage = 10;
+        }
         $results = collect($results);
         $pageNumber = Paginator::resolveCurrentPage('page');
         
