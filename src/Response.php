@@ -4,6 +4,7 @@ namespace Cerenimo\LaravelResponses;
 
 use Cerenimo\LaravelResponses\Helpers\PaginationHelper;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 trait Response
 {
@@ -85,7 +86,7 @@ trait Response
         if ($this->customData != []) {
             $response['data'] = $this->customData;
         }
-        
+
         $this->customData = [];
         $this->message = null;
 
@@ -407,17 +408,18 @@ trait Response
             $datas = array_values($this->pagination->items());
         }
 
-        $perPage = $this->pagination->perPage();
+        $request = Request::capture();
 
-        $prevLink = $this->pagination->previousPageUrl() != false ? $this->pagination->previousPageUrl() . '&perPage=' . $perPage : false;
-        $nextLink = $this->pagination->nextPageUrl() != false ? $this->pagination->nextPageUrl() . '&perPage=' . $perPage : false;
+        $queryParams = $request->query();
+
+        $this->pagination->appends($queryParams);
 
         $pagination = [
             'links' => [
                 'first' => $this->pagination->onFirstPage(),
                 'last' => $this->pagination->onLastPage(),
-                'prev' => $prevLink,
-                'next' => $nextLink,
+                'prev' => $this->pagination->previousPageUrl(),
+                'next' => $this->pagination->nextPageUrl(),
             ],
             'meta' => [
                 'current_page' => $this->pagination->currentPage(),
