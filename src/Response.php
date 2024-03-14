@@ -168,7 +168,7 @@ trait Response
         return new JsonResponse($response, 404);
     }
 
-    //Forbidden geçerli kimlik var ama kimlik sahibi işlem için yetkiye sahip değil 
+    //Forbidden geçerli kimlik var ama kimlik sahibi işlem için yetkiye sahip değil
     public function responseForbidden()
     {
         $response = [
@@ -462,5 +462,29 @@ trait Response
         $this->message = null;
 
         return new JsonResponse($response, 498);
+    }
+
+    public function responseLoginTimeout($message = null)
+    {
+        $response = [
+            'result' => false,
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Login timeout.';
+
+        $this->customData = [];
+        $this->message = null;
+
+        return new JsonResponse($response, 440);
     }
 }
