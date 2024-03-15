@@ -487,4 +487,28 @@ trait Response
 
         return new JsonResponse($response, 440);
     }
+
+    public function responseConnectionError()
+    {
+        $response = [
+            'result' => false,
+        ];
+
+        $datas = [];
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+        $response['error'] = $this->message ?? 'Connection error.';
+
+        $this->customData = [];
+        $this->message = null;
+
+        return new JsonResponse($response, 503);
+    }
 }
