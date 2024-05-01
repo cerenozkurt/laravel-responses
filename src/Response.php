@@ -70,7 +70,7 @@ trait Response
         $this->dataName = $dataName;
         return $this;
     }
-    public function setthrow()
+    public function setThrow()
     {
         $this->throw = 1;
         return $this;
