@@ -3,6 +3,7 @@
 namespace Cerenimo\LaravelResponses;
 
 use Cerenimo\LaravelResponses\Helpers\PaginationHelper;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,7 @@ trait Response
     protected $pagination;
     protected $dataName;
     protected $collection;
+    protected $throw;
     public function setCustomData($key, $value)
     {
         if (!is_array($this->customData)) {
@@ -68,6 +70,11 @@ trait Response
         $this->dataName = $dataName;
         return $this;
     }
+    public function setthrow()
+    {
+        $this->throw = 1;
+        return $this;
+    }
 
     public function responseSuccess()
     {
@@ -108,11 +115,17 @@ trait Response
             $response['data'] = $this->customData;
         }
         $response['error'] = $this->message ?? 'An error occurred.';
-
+        $statusCode = $this->statusCode ?? 500;
         $this->customData = [];
         $this->message = null;
+        $this->statusCode = null;
 
-        return new JsonResponse($response, $this->statusCode ?? 500);
+        if ($this->throw) {
+            throw new Exception($response['error'], $statusCode);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, $statusCode);
+        }
     }
 
     public function responseValidation()
@@ -141,7 +154,12 @@ trait Response
         $this->message = null;
         $this->validation = null;
 
-        return new JsonResponse($response, 422);
+        if ($this->throw) {
+            throw new Exception($response['validation_error'], 422);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 422);
+        }
     }
 
     public function responseNotFound()
@@ -165,7 +183,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 404);
+        if ($this->throw) {
+            throw new Exception($response['error'], 404);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 404);
+        }
     }
 
     //Forbidden geçerli kimlik var ama kimlik sahibi işlem için yetkiye sahip değil
@@ -190,7 +213,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 403);
+        if ($this->throw) {
+            throw new Exception($response['error'], 403);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 403);
+        }
     }
 
     //Unauthorized geçersiz kimlik bilgisi
@@ -215,7 +243,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 401);
+        if ($this->throw) {
+            throw new Exception($response['error'], 401);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 401);
+        }
     }
 
     public function responseTryCatch()
@@ -239,12 +272,13 @@ trait Response
         }
 
         $response['error'] = $this->exceptionError;
-
+        $statusCode = $this->statusCode ?? 500;
         $this->customData = [];
         $this->message = null;
         $this->exceptionError = null;
+        $this->statusCode = null;
 
-        return new JsonResponse($response, 500);
+        return new JsonResponse($response, $statusCode);
     }
 
     public function responseBadRequest()
@@ -268,7 +302,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 400);
+        if ($this->throw) {
+            throw new Exception($response['error'], 400);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 400);
+        }
     }
 
     public function responseConflict()
@@ -292,7 +331,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 409);
+        if ($this->throw) {
+            throw new Exception($response['error'], 409);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 409);
+        }
     }
 
     public function responsePayloadTooLarge()
@@ -316,7 +360,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 413);
+        if ($this->throw) {
+            throw new Exception($response['error'], 413);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 413);
+        }
     }
 
     public function responseTooManyRequests()
@@ -340,7 +389,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 429);
+        if ($this->throw) {
+            throw new Exception($response['error'], 429);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 429);
+        }
     }
 
     public function responseInternalServer()
@@ -364,7 +418,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 500);
+        if ($this->throw) {
+            throw new Exception($response['error'], 500);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 500);
+        }
     }
 
     public function responseNotImplemented()
@@ -388,7 +447,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 501);
+        if ($this->throw) {
+            throw new Exception($response['error'], 501);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 501);
+        }
     }
 
     public function responseDataWithPagination()
@@ -461,7 +525,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 498);
+        if ($this->throw) {
+            throw new Exception($response['error'], 498);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 498);
+        }
     }
 
     public function responseLoginTimeout($message = null)
@@ -485,7 +554,12 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 440);
+        if ($this->throw) {
+            throw new Exception($response['error'], 440);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 440);
+        }
     }
 
     public function responseConnectionError()
@@ -509,6 +583,11 @@ trait Response
         $this->customData = [];
         $this->message = null;
 
-        return new JsonResponse($response, 503);
+        if ($this->throw) {
+            throw new Exception($response['error'], 503);
+            $this->throw = null;
+        } else {
+            return new JsonResponse($response, 503);
+        }
     }
 }
