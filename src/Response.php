@@ -272,7 +272,7 @@ trait Response
         }
 
         $response['error'] = $this->exceptionError;
-        $statusCode = $this->statusCode ? ($this->setStatusCode == 0 ? 500 : $this->statusCode) : 500;
+        $statusCode = $this->statusCode ? ($this->statusCode == 0 ? 500 : $this->statusCode) : 500;
         $this->customData = [];
         $this->message = null;
         $this->exceptionError = null;
