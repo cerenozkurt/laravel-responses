@@ -472,6 +472,16 @@ trait Response
             $datas = array_values($this->pagination->items());
         }
 
+        if ($this->customData) {
+            foreach ($this->customData as $key => $value) {
+                $datas[$key] = $value;
+            }
+        }
+        if ($this->customData != []) {
+            $response['data'] = $this->customData;
+        }
+
+
         $request = Request::capture();
 
         $queryParams = $request->query();
